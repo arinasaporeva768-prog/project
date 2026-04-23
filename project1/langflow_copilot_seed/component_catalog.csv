@@ -1,0 +1,20 @@
+component_id,component_name,langflow_path,langflow_1_9_type,role,inputs,outputs,allowed_for_bank_demo,constraints
+chat_input,Chat Input,input_output.ChatInput,Message,Receives business user request,input_text/session_id,Chat Message,true,No secrets or raw regulated data in demo prompts
+text_input,Text Input,input_output.TextInput,Message,Skill-flow input for Run Flow tools,input_value,Output Text,true,Prefer Text Input for skill flows exposed as tools
+prompt_template,Prompt Template,models_and_agents.Prompt Template,Message,Builds structured instructions,template variables,Prompt,true,Templates must force JSON-only intermediate outputs where required
+agent,Agent,models_and_agents.Agent,Message,Orchestrates skill tools,model/system_prompt/tools/input_value,Response,true,Use approved model provider only; low temperature for builder and validator
+language_model,Language Model,models_and_agents.LanguageModelComponent,LanguageModel/Message,Standalone LLM for simple skills,model/input_value/system_message,Model Response,true,Use gemini-2.5-flash or approved internal model for MVP
+knowledge_base,Knowledge Base,files_and_knowledge.KnowledgeBase,Table,RAG over component catalog and bank policies,knowledge_base/search_query/top_k,Results,true,Use structured KBs; top_k 3-5 for demo; no unrestricted web retrieval
+run_flow,Run Flow,flow_controls.RunFlow,Flow Control,Calls each skill flow as a tool,flow_name_selected/session_id,Tool binding,true,Each skill flow must have clear name and description
+policies,Policies,models_and_agents.policies,Tools,Wraps tools with policy checks,policies/in_tools/model,guarded tools,true,Use clear business policy strings; treat beta as additional guard not sole control
+json_operations,JSON Operations,processing.DataOperations,JSON,Transforms graph specs and validation results,data/operations,JSON,true,Prefer schema-preserving transformations
+table_operations,Table Operations,processing.DataFrameOperations,Table,Filters retrieved catalog rows,df/operation,Table,true,Use Table naming in prompts and outputs
+parser,Parser,processing.ParserComponent,Message,Converts KB or message outputs into prompt-friendly text,input_data/mode,Parsed Text,true,Use for simple flattening before Prompt Template
+data_to_message,Data to Message,processing.ParseData,JSON/Message,Formats JSON into LLM-readable context,data/template,Message,true,Useful when Graph Builder or Validator returns JSON
+if_else,If-Else,flow_controls.ConditionalRouter,Message,Routes clarify/build/edit/explain modes,input_text/operator/match_text,True|False,true,Deterministic routing rules before LLM routing where possible
+message_history,Message History,models_and_agents.Memory,Message/Table,Stores and retrieves conversation state,session_id/mode/message,Messages|Table,true,Use session_id per user/workflow; external memory in production
+chat_output,Chat Output,input_output.ChatOutput,Message,Returns answer to user,inputs,Output Message,true,Show plan/diff/explanation, not hidden chain-of-thought
+text_output,Text Output,input_output.TextOutput,Message,Skill-flow output for Run Flow tools,inputs,Output Text,true,Prefer Text Output for tool-exposed skill flows
+read_file,Read File,files_and_knowledge.File,Message,Reads saved artifacts or policy files,path/file_path,Raw Content,true,Disable arbitrary file access in production unless allow-listed
+directory,Directory,files_and_knowledge.Directory,Table,Loads batch files into Table,path/types,Loaded Files,true,Useful for future enterprise document ingestion
+write_file,Write File,files_and_knowledge.SaveToFile,Message,Optional controlled export,input/file_name,File Path,false,Approval required; disable by default in bank demo

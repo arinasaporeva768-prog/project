@@ -1,0 +1,6 @@
+template_id,business_request_pattern,workflow_blueprint,required_slots,notes
+T001,Analyze customer dialogs and produce insight report,"Chat Input -> Requirement Intake -> Catalog RAG -> Planner -> Graph Builder -> Validator -> Approval -> Chat Output","data_source,time_window,analysis_goal,report_channel",Use email only after explicit approval
+T002,Build a RAG assistant over internal documents,"Chat Input -> Knowledge Base Retrieval -> Prompt Template -> Agent or Language Model -> Chat Output","knowledge_base,answer_style,security_scope",Use structured source restrictions and citations
+T003,Explain an existing workflow,"Chat Input -> Graph Snapshot -> Explainer Skill -> Chat Output","workflow_id,explanation_depth,audience",No graph mutation
+T004,Edit an existing workflow parameter,"Chat Input -> Graph Snapshot -> Edit Planner -> Validator -> Approval -> Apply Diff -> Chat Output","workflow_id,target_change,approval",Return diff before applying
+T005,Troubleshoot invalid workflow,"Chat Input -> Trace or Error Input -> Validator -> Repair Planner -> Approval -> Chat Output","workflow_id,error_message",Limit repair iterations to 2 in demo

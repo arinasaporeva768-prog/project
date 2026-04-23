@@ -1,0 +1,30 @@
+flowchart LR
+  U[Business user request] --> CI[Chat Input]
+  CI --> ORCH[Main Orchestrator Agent]
+
+  ORCH --> INTAKE[Skill: Requirement Intake]
+  ORCH --> RAG[Skill: Catalog and Policy RAG]
+  ORCH --> PLAN[Skill: Workflow Planner]
+  ORCH --> BUILD[Skill: Graph Builder]
+  ORCH --> VALIDATE[Skill: Validator and Repair]
+  ORCH --> EXPLAIN[Skill: Explainer]
+  ORCH --> AUDIT[Skill: Audit Event]
+
+  KB1[(Knowledge Base: allowed Langflow components)] --> RAG
+  KB2[(Knowledge Base: bank policies)] --> RAG
+  KB3[(Knowledge Base: approved workflow templates)] --> PLAN
+
+  RAG --> POL[Policies Guard]
+  BUILD --> POL
+  VALIDATE --> POL
+
+  POL --> APPROVAL{Approval required?}
+  APPROVAL -->|yes| REVIEW[Show plan or diff to user]
+  REVIEW --> APPLY[Apply graph change after approval]
+  APPROVAL -->|no| APPLY
+
+  APPLY --> STATE[(Workflow state and versions)]
+  APPLY --> CO[Chat Output: plan, diff, explanation]
+  STATE --> EXPLAIN
+  STATE --> AUDIT
+  AUDIT --> LOG[(Audit trail, traces, access logs)]

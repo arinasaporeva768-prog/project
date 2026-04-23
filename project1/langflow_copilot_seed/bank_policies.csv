@@ -1,0 +1,9 @@
+policy_id,policy_text,enforcement_target,severity
+P001,The copilot must not create or execute custom Python code unless the component is on the approved allow-list.,graph_build_and_edit,high
+P002,The copilot must ask for approval before applying workflow changes that add external network calls, file writes, email sending, or database writes.,graph_build_and_edit,high
+P003,The copilot must use only approved model providers and approved embedding providers for the selected user role and business domain.,model_selection,high
+P004,The copilot must not expose secrets, API keys, credentials, or raw customer personal data in prompts, explanations, logs, or generated workflow descriptions.,all_outputs,critical
+P005,The copilot must return a validation report before declaring a workflow ready.,validation,medium
+P006,The copilot must preserve an audit event for each user request, retrieved context, generated graph version, validation result, approval decision, and applied diff.,audit,critical
+P007,The copilot must prefer deterministic templates for common workflow patterns and use LLM generation only for gaps that cannot be resolved from templates and catalog retrieval.,orchestration,medium
+P008,The copilot must refuse or narrow requests that require components outside the allowed catalog for the current project and user role.,access_control,high

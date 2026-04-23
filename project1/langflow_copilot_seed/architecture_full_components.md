@@ -1,0 +1,128 @@
+# Detailed Langflow Component Diagram
+
+Файл со схемой всех основных компонентов для AI Copilot:
+
+- [architecture_full_components.mmd](/C:/Users/evgen/Downloads/project1/langflow_copilot_seed/architecture_full_components.mmd)
+
+## Mermaid
+
+```mermaid
+flowchart LR
+  U["Business User"] --> CI["Chat Input"]
+  CI --> MH["Message History"]
+  MH --> AG["Agent"]
+  CI --> AG
+
+  subgraph ORCH["Main Flow: AI Copilot - Orchestrator"]
+    AG
+    PO["Policies"]
+    CO["Chat Output"]
+
+    RF1["Run Flow: SKILL - Requirement Intake"]
+    RF2["Run Flow: SKILL - Catalog RAG"]
+    RF3["Run Flow: SKILL - Workflow Planner"]
+    RF4["Run Flow: SKILL - Graph Builder"]
+    RF5["Run Flow: SKILL - Validator Repair"]
+    RF6["Run Flow: SKILL - Explainer"]
+    RF7["Run Flow: SKILL - Audit"]
+
+    AG --> RF1
+    AG --> RF2
+    AG --> RF3
+    AG --> RF4
+    AG --> RF5
+    AG --> RF6
+    AG --> RF7
+
+    RF1 --> PO
+    RF2 --> PO
+    RF3 --> PO
+    RF4 --> PO
+    RF5 --> PO
+    RF6 --> PO
+    RF7 --> PO
+
+    PO --> AG
+    AG --> CO
+  end
+
+  subgraph S1["Skill Flow: Requirement Intake"]
+    TI1["Text Input"] --> PT1["Prompt Template"]
+    PT1 --> LM1["Language Model"]
+    LM1 --> TO1["Text Output"]
+  end
+
+  subgraph S2["Skill Flow: Catalog RAG"]
+    TI2["Text Input"] --> KB1["Knowledge Base: lf_component_catalog"]
+    TI2 --> KB2["Knowledge Base: bank_policies"]
+    KB1 --> PR1["Parser"]
+    KB2 --> PR2["Parser"]
+    PR1 --> PT2["Prompt Template"]
+    PR2 --> PT2
+    PT2 --> LM2["Language Model"]
+    LM2 --> TO2["Text Output"]
+  end
+
+  subgraph S3["Skill Flow: Workflow Planner"]
+    TI3["Text Input"] --> KB3["Knowledge Base: approved_workflow_templates"]
+    KB3 --> PR3["Parser"]
+    PR3 --> PT3["Prompt Template"]
+    PT3 --> LM3["Language Model"]
+    LM3 --> TO3["Text Output"]
+  end
+
+  subgraph S4["Skill Flow: Graph Builder"]
+    TI4["Text Input"] --> PT4["Prompt Template"]
+    PT4 --> LM4["Language Model"]
+    LM4 --> JO4["JSON Operations"]
+    JO4 --> TO4["Text Output"]
+  end
+
+  subgraph S5["Skill Flow: Validator Repair"]
+    TI5["Text Input"] --> PT5["Prompt Template"]
+    PT5 --> LM5["Language Model"]
+    LM5 --> JO5["JSON Operations"]
+    JO5 --> TOM5["Data to Message"]
+    TOM5 --> TO5["Text Output"]
+  end
+
+  subgraph S6["Skill Flow: Explainer"]
+    TI6["Text Input"] --> PT6["Prompt Template"]
+    PT6 --> LM6["Language Model"]
+    LM6 --> TO6["Text Output"]
+  end
+
+  subgraph S7["Skill Flow: Audit"]
+    TI7["Text Input"] --> PT7["Prompt Template"]
+    PT7 --> LM7["Language Model"]
+    LM7 --> JO7["JSON Operations"]
+    JO7 --> TO7["Text Output"]
+  end
+
+  RF1 -.calls.-> TI1
+  TO1 -.returns.-> RF1
+  RF2 -.calls.-> TI2
+  TO2 -.returns.-> RF2
+  RF3 -.calls.-> TI3
+  TO3 -.returns.-> RF3
+  RF4 -.calls.-> TI4
+  TO4 -.returns.-> RF4
+  RF5 -.calls.-> TI5
+  TO5 -.returns.-> RF5
+  RF6 -.calls.-> TI6
+  TO6 -.returns.-> RF6
+  RF7 -.calls.-> TI7
+  TO7 -.returns.-> RF7
+```
+
+## Что здесь включено
+
+- главный flow
+- все 7 skill-flows
+- knowledge bases
+- parser
+- json operations
+- data to message
+- message history
+- policies
+- optional components для расширения

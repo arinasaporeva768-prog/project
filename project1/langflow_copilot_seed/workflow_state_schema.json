@@ -1,0 +1,60 @@
+{
+  "schema_name": "BankLangflowCopilotWorkflowState",
+  "version": "1.0",
+  "description": "Canonical state object passed between copilot skills. Keep this compact enough for LLM context and detailed enough for validation and audit.",
+  "required_fields": [
+    "request_id",
+    "user_id",
+    "session_id",
+    "intent",
+    "workflow_version",
+    "graph_spec",
+    "retrieved_context",
+    "policy_decisions",
+    "validation_report",
+    "approval_state",
+    "audit_event_ids"
+  ],
+  "intent_values": [
+    "clarify",
+    "build",
+    "edit",
+    "explain",
+    "validate",
+    "refuse"
+  ],
+  "graph_spec": {
+    "nodes": [
+      {
+        "id": "string",
+        "component_type": "string",
+        "display_name": "string",
+        "params": {},
+        "risk_tags": [
+          "model_call",
+          "external_io",
+          "secret_required",
+          "write_action"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "node_id.output_port",
+        "target": "node_id.input_port",
+        "data_type": "Message|JSON|Table|Tool|Model"
+      }
+    ],
+    "layout": {
+      "direction": "left_to_right",
+      "layers": [
+        "input",
+        "rag",
+        "planning",
+        "guarding",
+        "execution",
+        "output"
+      ]
+    }
+  }
+}
